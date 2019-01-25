@@ -23,7 +23,7 @@ const userSchema = new Schema({
                             else resolve(true)
                         })
                         .catch(err => {
-                            console.log(err)
+                          console.log(err)
                         })
                 })
             }, message: 'Email already exist'
