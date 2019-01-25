@@ -60,7 +60,14 @@ module.exports = {
                 if (user) {
                     if (bcrypt.compareSync(req.body.password, user.password)) {
                         let token = tokenGenerator.generate({name: user.name, email: user.email})
-                        res.status(200).json({user: {id: user._id, name: user.name, email: user.email}, token})
+                        res.status(200).json({
+                          user: {
+                            id: user._id, 
+                            name: user.name, 
+                            email: user.email
+                          }, 
+                          token: token
+                        })
                     }
                     else {
                         res.status(400).json({info: 'incorrect password'})
