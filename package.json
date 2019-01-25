@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "nodemon ./bin/www",
+    "start": "NODE_ENV=dev nodemon ./bin/www",
     "test": "NODE_ENV=test ./node_modules/.bin/_mocha --exit"
   },
   "dependencies": {

@@ -9,6 +9,7 @@ module.exports = {
                 res.status(200).json({info: 'users found successfully', data: users})
             })
             .catch(err => {
+                
                 res.status(500).json({info: 'error finding users', data: err})
             })
     },

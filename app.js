@@ -8,12 +8,14 @@ var app = express();
 var cors = require('cors');
 
 
-var mongoose = require('mongoose');
+const deploymentDB = `mongodb://${process.env.DB_USER}:${process.env.DB_PASSWORD}@ds211625.mlab.com:11625/final-project-db`
+const local = 'mongodb://localhost/namadbnya'
 
-mongoose.connect(`mongodb://${process.env.DB_USER}:${process.env.DB_PASSWORD}@ds211625.mlab.com:11625/final-project-db`, {useNewUrlParser: true});
+var mongoose = require('mongoose');
+mongoose.connect(process.env.NODE_ENV === 'dev' ? deploymentDB : local, { useNewUrlParser: true });
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
-db.once('open', function() {
+db.once('open', function () {
   console.log('connected to final-project-db on mlab')
 });
 
@@ -25,12 +27,12 @@ app.use(express.urlencoded({ extended: false }));
 app.use('/users', usersRouter);
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   next(createError(404));
 });
 
 // error handler
-app.use(function(err, req, res, next) {
+app.use(function (err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
