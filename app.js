@@ -9,8 +9,8 @@ var cors = require('cors');
 
 
 var mongoose = require('mongoose');
-mongoose.connect(`mongodb://${process.env.DB_USER}:${process.env.DB_PASSWORD}@ds211625.mlab.com:11625/final-project-db`, {useNewUrlParser: true});
 
+mongoose.connect(`mongodb://${process.env.DB_USER}:${process.env.DB_PASSWORD}@ds211625.mlab.com:11625/final-project-db`, {useNewUrlParser: true});
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function() {
