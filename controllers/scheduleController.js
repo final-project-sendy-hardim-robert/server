@@ -11,12 +11,14 @@ class ScheduleController {
         if (data) {
           data.startTime = req.body.start
           data.finishTime = req.body.finish
+          data.active = req.body.active
           data.save()
           return data
         } else {
           return Schedule.create({
             startTime: req.body.start,
             finishTime: req.body.finish,
+            active: false,
             owner: req.currentUser._id
           })
         }
@@ -42,7 +44,8 @@ class ScheduleController {
 
   static async getScheduleByOwner(req, res) {
     const data = await getSchedule(req.currentUser._id)
-    data ? res.status(200).json(data) : res.status(500).json({ info: 'Internal Server Error' })
+    console.log(data)
+    data ? res.status(200).json(data) : res.status(200).json(null)
   }
 
   static stopTask(req, res) {
@@ -51,7 +54,19 @@ class ScheduleController {
       manager.stop(key + '_start')
       manager.stop(key + '_finish')
     }
-    res.status(200).json('task is stoped')
+    getSchedule(req.currentUser._id)
+      .then(data => {
+        if (data) {
+          data.active = false
+          return data.save()
+        }
+      })
+      .then(() => {
+        res.status(200).json('task is stoped')
+      })
+      .catch(err => {
+        res.status(500).json(err)
+      })
   }
 
   static startTask(req, res) {
@@ -62,17 +77,21 @@ class ScheduleController {
         if (data) {
           startTime = data.startTime.split(':')
           finishTime = data.finishTime.split(':')
+          data.active = true
+          data.save()
+          const key = JSON.stringify(req.currentUser._id)
+          manager.add(key + '_start', '* * * * * *', () => {
+            console.log('CRON JOB RUNNING', startTime);
+          })
+          manager.add(key + '_finish', '* * * * * *', () => {
+            console.log('CRON JOB RUNNING', finishTime);
+          })
+          manager.start(key + '_start')
+          manager.start(key + '_finish')
+          res.status(200).json('task is started')
+        } else {
+          res.status(200).json('Please save the schedule first')
         }
-        const key = JSON.stringify(req.currentUser._id)
-        manager.add(key + '_start', '* * * * * *', () => {
-          console.log('CRON JOB RUNNING', startTime);
-        })
-        manager.add(key + '_finish', '* * * * * *', () => {
-          console.log('CRON JOB RUNNING', finishTime);
-        })
-        manager.start(key + '_start')
-        manager.start(key + '_finish')
-        res.status(200).json('task is started')
       })
       .catch(err => {
         console.log(err)

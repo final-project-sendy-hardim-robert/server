@@ -4,6 +4,7 @@ const Schema = mongoose.Schema
 const ScheduleSchema = new Schema({
   startTime: String,
   finishTime: String,
+  active: Boolean,
   owner: {
     type: Schema.Types.ObjectId,
     ref: 'User'
