@@ -44,7 +44,6 @@ class ScheduleController {
 
   static async getScheduleByOwner(req, res) {
     const data = await getSchedule(req.currentUser._id)
-    console.log(data)
     data ? res.status(200).json(data) : res.status(200).json(null)
   }
 
@@ -72,18 +71,19 @@ class ScheduleController {
   static startTask(req, res) {
     getSchedule(req.currentUser._id)
       .then(data => {
-        let startTime = ['10', '0']
-        let finishTime = ['17', '0']
+        let startTime = ''
+        let finishTime = ''
         if (data) {
           startTime = data.startTime.split(':')
           finishTime = data.finishTime.split(':')
           data.active = true
           data.save()
           const key = JSON.stringify(req.currentUser._id)
-          manager.add(key + '_start', '* * * * * *', () => {
+          manager.add(key + '_start', `${startTime[1]} ${startTime[0]} * * * *`, () => {
             console.log('CRON JOB RUNNING', startTime);
+            fi
           })
-          manager.add(key + '_finish', '* * * * * *', () => {
+          manager.add(key + '_finish', `${finishTime[1]} ${finishTime[0]} * * * *`, () => {
             console.log('CRON JOB RUNNING', finishTime);
           })
           manager.start(key + '_start')

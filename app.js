@@ -13,7 +13,7 @@ const deploymentDB = `mongodb://${process.env.DB_USER}:${process.env.DB_PASSWORD
 const developmentDB = 'mongodb://localhost/namadbnya'
 
 var mongoose = require('mongoose');
-mongoose.connect(process.env.NODE_ENV === 'dev' ? developmentDB : deploymentDB, { useNewUrlParser: true });
+mongoose.connect(process.env.NODE_ENV === 'dev' ? deploymentDB : deploymentDB, { useNewUrlParser: true });
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function () {
