@@ -1,4 +1,5 @@
 const User = require('../models/user.js');
+const Schedule = require('../models/schedule');
 
 module.exports =  {
   delete(done) {
@@ -25,5 +26,11 @@ module.exports =  {
       .catch((err) => {
         done()
       })
+  },
+
+  getSchedule(id) {
+    return Schedule.findOne({
+      owner: id
+    })
   }
 }

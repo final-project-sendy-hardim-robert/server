@@ -3,16 +3,17 @@ var createError = require('http-errors');
 var express = require('express');
 var logger = require('morgan');
 
+var scheduleRouter  = require('./routes/schedules')
 var usersRouter = require('./routes/users');
 var app = express();
 var cors = require('cors');
 
 
 const deploymentDB = `mongodb://${process.env.DB_USER}:${process.env.DB_PASSWORD}@ds211625.mlab.com:11625/final-project-db`
-const local = 'mongodb://localhost/namadbnya'
+const developmentDB = 'mongodb://localhost/namadbnya'
 
 var mongoose = require('mongoose');
-mongoose.connect(process.env.NODE_ENV === 'dev' ? deploymentDB : local, { useNewUrlParser: true });
+mongoose.connect(process.env.NODE_ENV === 'dev' ? developmentDB : deploymentDB, { useNewUrlParser: true });
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function () {
@@ -25,7 +26,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 app.use('/users', usersRouter);
-
+app.use('/schedule', scheduleRouter);
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
   next(createError(404));
