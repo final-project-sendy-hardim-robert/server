@@ -20,7 +20,9 @@ class Auth {
                   }
               })
               .catch(err => {
-                  res.status(401).json()
+                  res.status(500).json({
+                      error: 'internal server error'
+                  })
               })
       } catch(e) {
           if(e.message == 'jwt must be provided') {
