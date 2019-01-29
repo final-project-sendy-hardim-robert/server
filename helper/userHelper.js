@@ -9,9 +9,6 @@ module.exports =  {
       .then((data) => {
         done();
       })
-      .catch((err) => {
-        done()
-      })
   },
 
   create(done) {
@@ -21,9 +18,6 @@ module.exports =  {
       password: '123456'
     })
       .then((data) => {
-        done()
-      })
-      .catch((err) => {
         done()
       })
   },

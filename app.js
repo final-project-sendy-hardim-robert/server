@@ -13,7 +13,7 @@ const deploymentDB = `mongodb://${process.env.DB_USER}:${process.env.DB_PASSWORD
 const developmentDB = 'mongodb://localhost/namadbnya'
 
 var mongoose = require('mongoose');
-mongoose.connect(process.env.NODE_ENV === 'dev' ? deploymentDB : deploymentDB, { useNewUrlParser: true });
+mongoose.connect(process.env.NODE_ENV === 'dev' ? deploymentDB : developmentDB, { useNewUrlParser: true });
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function () {
@@ -27,19 +27,5 @@ app.use(express.urlencoded({ extended: false }));
 
 app.use('/users', usersRouter);
 app.use('/schedule', scheduleRouter);
-// catch 404 and forward to error handler
-app.use(function (req, res, next) {
-  next(createError(404));
-});
-
-// error handler
-app.use(function (err, req, res, next) {
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
-  console.log(err, 'apa nih')
-  // render the error page
-  res.status(err.status || 500);
-});
 
 module.exports = app;

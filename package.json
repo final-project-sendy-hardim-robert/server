@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "NODE_ENV=dev nodemon ./bin/www",
-    "test": "NODE_ENV=test ./node_modules/.bin/_mocha --exit"
+    "test": "NODE_ENV=test nyc ./node_modules/.bin/_mocha --exit"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
@@ -23,11 +23,15 @@
     "mocha": "^5.2.0",
     "mongoose": "^5.4.6",
     "morgan": "~1.9.0",
-    "node-cron": "^2.0.3"
+    "node-cron": "^2.0.3",
+    "sinon": "^7.2.3",
+    "sinon-chai": "^3.3.0"
   },
   "description": "",
   "main": "app.js",
-  "devDependencies": {},
+  "devDependencies": {
+    "nyc": "^13.1.0"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/final-project-sendy-hardim-robert/server.git"
