@@ -5,6 +5,7 @@ var logger = require('morgan');
 
 var scheduleRouter  = require('./routes/schedules')
 var usersRouter = require('./routes/users');
+var weatherRouter = require('./routes/weather.js')
 var app = express();
 var cors = require('cors');
 
@@ -27,5 +28,7 @@ app.use(express.urlencoded({ extended: false }));
 
 app.use('/users', usersRouter);
 app.use('/schedule', scheduleRouter);
+app.use('/weather', weatherRouter)
+// catch 404 and forward to error handler
 
 module.exports = app;
