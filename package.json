@@ -7,6 +7,7 @@
     "test": "NODE_ENV=test nyc ./node_modules/.bin/_mocha --exit"
   },
   "dependencies": {
+    "axios": "^0.18.0",
     "bcryptjs": "^2.4.3",
     "chai": "^4.2.0",
     "chai-http": "^4.2.1",
@@ -24,8 +25,16 @@
     "mongoose": "^5.4.6",
     "morgan": "~1.9.0",
     "node-cron": "^2.0.3",
+<<<<<<< HEAD
+<<<<<<< HEAD
     "sinon": "^7.2.3",
     "sinon-chai": "^3.3.0"
+=======
+    "redis": "^2.8.0"
+>>>>>>> done adding weather controller
+=======
+    "redis": "^2.8.0"
+>>>>>>> 5c3ef9ab436bde0a9212cba4ffc9b555240cc31a
   },
   "description": "",
   "main": "app.js",
