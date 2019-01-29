@@ -1,7 +1,6 @@
 const User = require('../models/user')
 const jwt = require('jsonwebtoken')
 
-
 class Auth {
   static isLogin(req, res, next) {
       try {
