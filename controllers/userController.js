@@ -3,7 +3,7 @@ const bcrypt = require('bcryptjs')
 const tokenGenerator = require('../helper/tokenGenerator')
 
 module.exports = {
-    getUsers(req, res,) {
+    getUsers(req, res) {
         User.find({})
             .then(users => {
                 res.status(200).json({info: 'users found successfully', data: users})

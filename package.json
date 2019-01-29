@@ -7,6 +7,7 @@
     "test": "NODE_ENV=test ./node_modules/.bin/_mocha --exit"
   },
   "dependencies": {
+    "axios": "^0.18.0",
     "bcryptjs": "^2.4.3",
     "chai": "^4.2.0",
     "chai-http": "^4.2.1",
@@ -23,7 +24,8 @@
     "mocha": "^5.2.0",
     "mongoose": "^5.4.6",
     "morgan": "~1.9.0",
-    "node-cron": "^2.0.3"
+    "node-cron": "^2.0.3",
+    "redis": "^2.8.0"
   },
   "description": "",
   "main": "app.js",
