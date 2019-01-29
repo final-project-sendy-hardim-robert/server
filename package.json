@@ -25,16 +25,9 @@
     "mongoose": "^5.4.6",
     "morgan": "~1.9.0",
     "node-cron": "^2.0.3",
-<<<<<<< HEAD
-<<<<<<< HEAD
     "sinon": "^7.2.3",
-    "sinon-chai": "^3.3.0"
-=======
+    "sinon-chai": "^3.3.0",
     "redis": "^2.8.0"
->>>>>>> done adding weather controller
-=======
-    "redis": "^2.8.0"
->>>>>>> 5c3ef9ab436bde0a9212cba4ffc9b555240cc31a
   },
   "description": "",
   "main": "app.js",
