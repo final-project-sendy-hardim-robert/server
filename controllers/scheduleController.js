@@ -1,6 +1,7 @@
 const Schedule = require('../models/schedule');
 const { getSchedule } = require('../helper/userHelper');
 var CronJobManager = require('cron-job-manager');
+const firebase = require('../firebase.js');
 const manager = new CronJobManager();
 
 class ScheduleController {
@@ -69,8 +70,10 @@ class ScheduleController {
   }
 
   static startTask(req, res) {
+    console.log('called 1')
     getSchedule(req.currentUser._id)
       .then(data => {
+        console.log('called 2')
         let startTime = ''
         let finishTime = ''
         if (data) {
@@ -79,17 +82,23 @@ class ScheduleController {
           data.active = true
           data.save()
           const key = JSON.stringify(req.currentUser._id)
-          manager.add(key + '_start', `${startTime[1]} ${startTime[0]} * * * *`, () => {
-            console.log('CRON JOB RUNNING', startTime);
-            fi
+          manager.add(key + '_start', `${startTime[1]} ${startTime[0]} * * *`, () => {
+            console.log('masuk ga coi hang me')
+           firebase.database().ref(`Users/${req.currentUser._id}`).update({
+             hangNow: true
+           })
           })
-          manager.add(key + '_finish', `${finishTime[1]} ${finishTime[0]} * * * *`, () => {
-            console.log('CRON JOB RUNNING', finishTime);
+          manager.add(key + '_finish', `${finishTime[1]} ${finishTime[0]} * * *`, () => {
+            console.log('masuk ga coi take it down')
+            firebase.database().ref(`Users/${req.currentUser._id}`).update({
+              hangNow: false
+            })
           })
           manager.start(key + '_start')
           manager.start(key + '_finish')
           res.status(200).json('task is started')
         } else {
+          console.log('called 3')
           res.status(200).json('Please save the schedule first')
         }
       })
