@@ -2,8 +2,14 @@ const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
 const ScheduleSchema = new Schema({
-  startTime: String,
-  finishTime: String,
+  startTime: {
+    type: String,
+    required: [true, 'Start Schedule time is required']
+  },
+  finishTime: {
+    type: String,
+    required: [true, 'Finish Schedule time is required']
+  },
   active: Boolean,
   owner: {
     type: Schema.Types.ObjectId,

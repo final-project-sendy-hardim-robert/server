@@ -38,7 +38,7 @@ class ScheduleController {
       })
       .catch(err => {
         res.status(500).json({
-          info: 'Internal Server Error'
+          info: err.message
         })
       })
   }
@@ -64,16 +64,16 @@ class ScheduleController {
       .then(() => {
         res.status(200).json('task is stoped')
       })
-      .catch(err => {
-        res.status(500).json(err)
-      })
+      // .catch(err => {
+      //   res.status(500).json({
+      //     error: 'internal server error'
+      //   })
+      // })
   }
 
   static startTask(req, res) {
-    console.log('called 1')
     getSchedule(req.currentUser._id)
       .then(data => {
-        console.log('called 2')
         let startTime = ''
         let finishTime = ''
         if (data) {
@@ -83,13 +83,11 @@ class ScheduleController {
           data.save()
           const key = JSON.stringify(req.currentUser._id)
           manager.add(key + '_start', `${startTime[1]} ${startTime[0]} * * *`, () => {
-            console.log('masuk ga coi hang me')
            firebase.database().ref(`Users/${req.currentUser._id}`).update({
              hangNow: true
-           })
+           }) 
           })
           manager.add(key + '_finish', `${finishTime[1]} ${finishTime[0]} * * *`, () => {
-            console.log('masuk ga coi take it down')
             firebase.database().ref(`Users/${req.currentUser._id}`).update({
               hangNow: false
             })
@@ -98,14 +96,14 @@ class ScheduleController {
           manager.start(key + '_finish')
           res.status(200).json('task is started')
         } else {
-          console.log('called 3')
           res.status(200).json('Please save the schedule first')
         }
       })
-      .catch(err => {
-        console.log(err)
-        res.sendStatus(500)
-      })
+      // .catch(err => {
+      //   res.status(500).json({
+      //     error: 'internal server error'
+      //   })
+      // })
   }
 
 }
