@@ -15,18 +15,14 @@ const userSchema = new Schema({
         match: [/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/, 'Please fill a valid email address'],
         validate: {
             isAsync: true,
-            validator: function(email) {
-                return new Promise (function(resolve, reject) {
-                    User.findOne({email})
-                        .then(user => {
-                            if (user) reject(false)
-                            else resolve(true)
-                        })
-                        .catch(err => {
-                            console.log(err)
-                        })
+            validator: function (val, cb) {
+                User.findOne({
+                    email: val
+                }, function (err, result) {
+                    cb(!result)
                 })
-            }, message: 'Email already exist'
+            },
+            message: 'Email already exist'
         }
     },
     password: {
@@ -36,7 +32,7 @@ const userSchema = new Schema({
     }
 })
 
-userSchema.pre('save', function(next) {
+userSchema.pre('save', function (next) {
     const salt = bcrypt.genSaltSync(10)
     this.password = bcrypt.hashSync(this.password, salt)
     next()
