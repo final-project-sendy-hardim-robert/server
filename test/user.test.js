@@ -82,7 +82,6 @@ describe('User Testing', function () {
                 done()
             })
             .catch(err => {
-                console.log(err)
                 done()
             })
     })
@@ -150,7 +149,6 @@ describe('User Testing', function () {
                 .post('/users/register')
                 .send(user)
                 .end((err, result) => {
-                    console.log(result.body)
                     expect(result).to.have.status(500)
                     expect(result.body).to.have.property('info')
                     expect(result.body.info).equal('error creating user')

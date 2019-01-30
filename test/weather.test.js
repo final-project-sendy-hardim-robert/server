@@ -146,7 +146,6 @@ describe('Testing weather feature', function () {
   })
 
     after(function(done) {
-      console.log(token,'berapa coi')
       client.flushall(() => {
       })
       helper.delete(done);
