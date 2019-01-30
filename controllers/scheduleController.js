@@ -27,6 +27,7 @@ class ScheduleController {
       .then(schedule => {
         const keyStart = JSON.stringify(req.currentUser._id) + '_start'
         const keyStop = JSON.stringify(req.currentUser._id) + '_finish'
+        /* istanbul ignore if */
         if (manager.exists(keyStart)) {
           manager.stop(keyStart)
           manager.stop(keyStop)
@@ -50,6 +51,7 @@ class ScheduleController {
 
   static stopTask(req, res) {
     const key = JSON.stringify(req.currentUser._id)
+    /* istanbul ignore if */
     if (manager.exists(key + '_start')) {
       manager.stop(key + '_start')
       manager.stop(key + '_finish')
@@ -64,11 +66,6 @@ class ScheduleController {
       .then(() => {
         res.status(200).json('task is stoped')
       })
-      // .catch(err => {
-      //   res.status(500).json({
-      //     error: 'internal server error'
-      //   })
-      // })
   }
 
   static startTask(req, res) {
@@ -76,17 +73,20 @@ class ScheduleController {
       .then(data => {
         let startTime = ''
         let finishTime = ''
+        /* istanbul ignore else */
         if (data) {
           startTime = data.startTime.split(':')
           finishTime = data.finishTime.split(':')
           data.active = true
           data.save()
           const key = JSON.stringify(req.currentUser._id)
+          /* istanbul ignore next */
           manager.add(key + '_start', `${startTime[1]} ${startTime[0]} * * *`, () => {
-           firebase.database().ref(`Users/${req.currentUser._id}`).update({
-             hangNow: true
-           }) 
+            firebase.database().ref(`Users/${req.currentUser._id}`).update({
+              hangNow: true
+            })
           })
+          /* istanbul ignore next */
           manager.add(key + '_finish', `${finishTime[1]} ${finishTime[0]} * * *`, () => {
             firebase.database().ref(`Users/${req.currentUser._id}`).update({
               hangNow: false
@@ -99,11 +99,6 @@ class ScheduleController {
           res.status(200).json('Please save the schedule first')
         }
       })
-      // .catch(err => {
-      //   res.status(500).json({
-      //     error: 'internal server error'
-      //   })
-      // })
   }
 
 }

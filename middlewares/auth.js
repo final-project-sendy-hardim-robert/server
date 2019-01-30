@@ -21,7 +21,6 @@ class Auth {
               })
       } catch(e) {
           if(e.message == 'jwt must be provided') {
-              console.log('here')
               res.status(400).json({
                   errors: {
                       token: {

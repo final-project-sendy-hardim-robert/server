@@ -174,11 +174,10 @@ describe('testing scheduler', function () {
         .set('token', expiredToken)
         .send(dummySchedule)
 
-        console.log(response.body, 'error boi')
       expect(response).to.have.status(400);
-      // expect(response.body).to.be.an("object");
-      // expect(response.body).to.have.property('info');
-      // expect(response.body.info).to.equal('user not found');
+      expect(response.body).to.be.an("object");
+      expect(response.body).to.have.property('info');
+      expect(response.body.info).to.equal('user not found');
     });
 
   })
