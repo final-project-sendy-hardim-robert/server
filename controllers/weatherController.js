@@ -5,14 +5,12 @@ module.exports = {
   getWeatherData(req, res) {
     client.get('weathers' + req.currentUser._id, (err, reply) => {
       if (reply) {
-        console.log('masuk sini ga cui')
         res.status(200).json({
           info: 'Successfully get weather data',
           data: JSON.parse(reply)
         })
       } else {
         const {latitude, longitude } = req.query;
-        console.log(latitude, longitude, 'masuk ga coi')
         axios({
           method: 'get',
           url: `https://api.openweathermap.org/data/2.5/forecast?units=metric&lat=${latitude}&lon=${longitude}&appid=e585a530fc2f3c6a2dca7e7cf53b1b06`
@@ -25,7 +23,6 @@ module.exports = {
             })
           })
           .catch((err) => {
-            console.log(err)
             res.status(500).json({
               info: 'failed to get data',
               err: err
